@@ -1,5 +1,5 @@
-import express from 'express';
-import { getActorById, getActors, insertActor, updateActor, deleteActor } from '../db/actor.js';
+import express, {Request, Response} from 'express';
+import { getActorById, getActors, insertActor, updateActor, deleteActor, IActor } from '../db/actor';
 import { param, body, validationResult } from 'express-validator';
 
 const router = express.Router();
@@ -12,15 +12,17 @@ router.get('/', async (req, res) => {
 router.get(
     '/:actorId',
     param('actorId').isInt(),
-    async (req, res) => {
+    async (req:Request, res:Response) => {
 
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
-        const actor = await getActorById(req.params.actorId)
+        // console.log(req.params.actorId, "FOOBAR");
+        
+        const id = Number(req.params.actorId)
+        const actor = await getActorById(id)
         if (!actor) {
             res.status(404).send();
         } else {
@@ -32,14 +34,15 @@ router.post(
     '/',
     body('firstname').isString(),
     body('lastname').isString(),
-    async (req, res) => {
+    async (req:Request, res:Response) => {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
-        const actor = req.body;
+        
+       
+        const actor:IActor = req.body; //object type??
         const createdActor = await insertActor(actor);
 
         if (!createdActor) {
@@ -55,7 +58,7 @@ router.put(
     param('actorId').isInt(),
     body('firstname').isString(),
     body('lastname').isString(),
-    async (req, res) => {
+    async (req:Request, res:Response) => {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
@@ -63,7 +66,8 @@ router.put(
         }
 
         const actor = req.body;
-        const updatedActor = await updateActor(req.params.actorId, actor);
+        const id = Number(req.params.actorId)
+        const updatedActor = await updateActor(id, actor);
 
         if (!updatedActor) {
             res.status(500).send();
@@ -76,19 +80,19 @@ router.put(
 router.delete(
     '/:actorId',
     param('actorId').isInt(),
-    async (req, res) => {
+    async (req:Request, res:Response) => {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
-        const actor = getActorById(req.params.actorId);
+        const id = Number(req.params.actorId)
+        const actor = getActorById(id);
 
         if (!actor) {
             res.status(404).send();
         } else {
-            deleteActor(req.params.actorId);
+            deleteActor(id);
             res.status(202).send();
         }
     }

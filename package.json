@@ -2,11 +2,10 @@
   "name": "sakila-rest-api",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
-  "main": "src/server.js",
+  "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server.js"
+    "start": "tsc && nodemon dist/server.js -L"
   },
   "author": "",
   "license": "ISC",
@@ -15,9 +14,14 @@
     "express": "^4.17.3",
     "express-validator": "^6.14.0",
     "node-postgres": "^0.6.2",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.23",
+    "@types/pg": "^8.6.5",
     "nodemon": "^2.0.15"
   }
 }
