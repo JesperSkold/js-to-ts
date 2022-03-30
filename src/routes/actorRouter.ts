@@ -19,7 +19,6 @@ router.get(
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-        // console.log(req.params.actorId, "FOOBAR");
         
         const id = Number(req.params.actorId)
         const actor = await getActorById(id)
@@ -42,7 +41,7 @@ router.post(
         }
         
        
-        const actor:IActor = req.body; //object type??
+        const actor:IActor = req.body;
         const createdActor = await insertActor(actor);
 
         if (!createdActor) {

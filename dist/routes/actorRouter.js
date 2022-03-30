@@ -16,7 +16,6 @@ router.get('/:actorId', (0, express_validator_1.param)('actorId').isInt(), async
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    // console.log(req.params.actorId, "FOOBAR");
     const id = Number(req.params.actorId);
     const actor = await (0, actor_1.getActorById)(id);
     if (!actor) {
@@ -31,7 +30,7 @@ router.post('/', (0, express_validator_1.body)('firstname').isString(), (0, expr
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const actor = req.body; //object type??
+    const actor = req.body;
     const createdActor = await (0, actor_1.insertActor)(actor);
     if (!createdActor) {
         res.status(500).send();
@@ -46,7 +45,8 @@ router.put('/:actorId', (0, express_validator_1.param)('actorId').isInt(), (0, e
         return res.status(400).json({ errors: errors.array() });
     }
     const actor = req.body;
-    const updatedActor = await (0, actor_1.updateActor)(req.params.actorId, actor);
+    const id = Number(req.params.actorId);
+    const updatedActor = await (0, actor_1.updateActor)(id, actor);
     if (!updatedActor) {
         res.status(500).send();
     }

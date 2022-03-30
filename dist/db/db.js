@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.query = void 0;
 const pg_1 = __importDefault(require("pg"));
 const pool = new pg_1.default.Pool({ connectionString: process.env.CONNECTION_STRING });
-const query = (text, params) => pool.query(text, params); //TEXT: STRING? params: string? vilken typ?
+const query = (text, params) => pool.query(text, params);
 exports.query = query;
